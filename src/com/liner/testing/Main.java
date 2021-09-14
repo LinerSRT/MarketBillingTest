@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         int count = 1000000;
+        int count2 = 0;
         boolean enablePrint = false;
         System.out.println("Generating dataset: " + count);
         try {
@@ -32,6 +33,7 @@ public class Main {
                 Billing billing = billingReader.next();
                 while (market != null && billing != null) {
                     if (market.getId() == billing.getShopId()) {
+                        count2++;
                         if (enablePrint)
                             System.out.printf("%d,%s,%d,%d %n %n", billing.getId(), market.getName(), market.getId(), billing.getCost());
                     }
@@ -44,6 +46,7 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println("Time elapsed: " + (System.currentTimeMillis() - startTime) + " ms");
+        System.out.println("Processed " + count2+ " entries");
 
     }
 
@@ -54,7 +57,7 @@ public class Main {
         final OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
         outputStreamWriter.write("order_id,shop_id,cost\n");
         for (int i = 0; i < count; i++) {
-            outputStreamWriter.write(String.format("%s,%s,%s\n", random.nextInt(999) + 1, random.nextInt(1000), random.nextInt(999) + 1));
+            outputStreamWriter.write(String.format("%s,%s,%s\n", random.nextInt(999) + 1, random.nextInt(5), random.nextInt(999) + 1));
         }
         outputStreamWriter.close();
     }
@@ -65,7 +68,7 @@ public class Main {
         final OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
         outputStreamWriter.write("shop_id,shop_name\n");
         for (int i = 0; i < count; i++) {
-            outputStreamWriter.write(String.format("%s,%s\n", random.nextInt(999) + 1, UUID.randomUUID()));
+            outputStreamWriter.write(String.format("%s,%s\n", random.nextInt(5), UUID.randomUUID().toString().substring(0, 5)));
         }
         outputStreamWriter.close();
     }
